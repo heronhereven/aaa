@@ -2,60 +2,60 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的像素宠物</title>
     <style>
-        /* 这里的 CSS 是让宠物变漂亮 */
         body { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            background-color: #f0f0f0; 
-            font-family: sans-serif;
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; height: 100vh; margin: 0;
+            background-color: #ffeaa7; font-family: sans-serif;
         }
+        /* 让宠物跳动的动画 */
         #pet { 
-            font-size: 80px; /* 我们先用一个表情包当宠物 */
-            transition: transform 0.2s;
-            cursor: pointer;
+            font-size: 100px; 
+            cursor: pointer; 
+            transition: transform 0.1s;
+            user-select: none;
         }
-        #pet:active { transform: scale(0.8); }
+        #pet:active { transform: scale(1.3); } /* 点的时候变大一点 */
+        
         button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #ffcc00;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
+            margin-top: 30px; padding: 15px 30px; font-size: 20px;
+            background-color: #fab1a0; border: none; border-radius: 50px;
+            box-shadow: 0 4px #e17055; cursor: pointer;
         }
+        button:active { box-shadow: 0 2px #e17055; transform: translateY(2px); }
+        #status { margin-top: 20px; color: #d63031; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="pet">🐱</div>
-    <p id="status">点一下按钮，5秒后我会发通知给你！</p >
-    <button onclick="askAndNotify()">开启魔法通知</button>
+    <div id="pet" onclick="petClick()">🐱</div>
+    <p id="status">摸摸我，或者开启魔法通知！</p >
+    <button onclick="startMagic()">开启 5 秒通知</button>
 
-    <script>/Users/heron/Library/Mobile Documents/com~apple~TextEdit/Documents/Untitled.html
-        // 这里的 JavaScript 是让宠物变聪明
-        function askAndNotify() {
-            // 第一步：问问你能不能发通知
+    <script>
+        // 摸宠物的动作
+        function petClick() {
+            const status = document.getElementById('status');
+            status.innerText = "喵呜~ 刚才被你摸得好舒服！";
+            // 让手机震动一下（如果支持的话）
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        // 开启通知的魔法
+        function startMagic() {
             Notification.requestPermission().then(permission => {
                 if (permission === "granted") {
-                    document.getElementById('status').innerText = "倒计时开始...请退出浏览器回到桌面！";
-                    
-                    // 第二步：倒计时 5 秒
+                    document.getElementById('status').innerText = "倒计时 5 秒，快关掉屏幕试试！";
                     setTimeout(() => {
-                        // 第三步：发出纸条
-                        new Notification("像素宠物消息", {
-                            body: "主人主人！我饿啦，快回来喂我！",
-                            icon: "https://via.placeholder.com/128" // 这里可以换成你的宠物图
+                        new Notification("宠物小家", {
+                            body: "主人主人，我好想你呀！快回来陪我玩！",
+                            icon: "https://via.placeholder.com/128"
                         });
-                        document.getElementById('status').innerText = "通知已发出！";
                     }, 5000);
                 } else {
-                    alert("哎呀，你没允许我发通知，魔法失败了。");
+                    alert("请在手机设置里允许通知哦！");
                 }
             });
         }
