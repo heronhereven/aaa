@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>我的像素宠物</title>
+    <style>
+        /* 这里的 CSS 是让宠物变漂亮 */
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            background-color: #f0f0f0; 
+            font-family: sans-serif;
+        }
+        #pet { 
+            font-size: 80px; /* 我们先用一个表情包当宠物 */
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        #pet:active { transform: scale(0.8); }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ffcc00;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="pet">🐱</div>
+    <p id="status">点一下按钮，5秒后我会发通知给你！</p >
+    <button onclick="askAndNotify()">开启魔法通知</button>
+
+    <script>/Users/heron/Library/Mobile Documents/com~apple~TextEdit/Documents/Untitled.html
+        // 这里的 JavaScript 是让宠物变聪明
+        function askAndNotify() {
+            // 第一步：问问你能不能发通知
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    document.getElementById('status').innerText = "倒计时开始...请退出浏览器回到桌面！";
+                    
+                    // 第二步：倒计时 5 秒
+                    setTimeout(() => {
+                        // 第三步：发出纸条
+                        new Notification("像素宠物消息", {
+                            body: "主人主人！我饿啦，快回来喂我！",
+                            icon: "https://via.placeholder.com/128" // 这里可以换成你的宠物图
+                        });
+                        document.getElementById('status').innerText = "通知已发出！";
+                    }, 5000);
+                } else {
+                    alert("哎呀，你没允许我发通知，魔法失败了。");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
